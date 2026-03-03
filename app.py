@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 # ─────────────────────────────────────────────
 st.set_page_config(
     page_title="Phishing URL Detector",
-    page_icon="🔐",
+    page_icon="",
     layout="wide"
 )
 
@@ -263,7 +263,7 @@ with col_input:
     )
 with col_btn:
     st.write("")
-    analyze_btn = st.button("🔍 Analyze")
+    analyze_btn = st.button("Analyze")
 
 
 # ─────────────────────────────────────────────
