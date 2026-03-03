@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 # ─────────────────────────────────────────────
 st.set_page_config(
     page_title="Phishing URL Detector",
-    page_icon="🔐",
+    page_icon="PD",
     layout="wide"
 )
 
@@ -28,134 +28,136 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
-    .main { background-color: #0e1117; }
+
+    .main {
+        background-color: #f5f5f7;
+    }
 
     .title-block {
-        background: linear-gradient(135deg, #1a1f2e, #0d1117);
-        border: 1px solid #30363d;
-        border-radius: 12px;
-        padding: 2rem;
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem 2rem;
         margin-bottom: 1.5rem;
-        text-align: center;
+        text-align: left;
     }
     .title-block h1 {
-        font-family: 'Space Mono', monospace;
-        color: #58a6ff;
-        font-size: 2.2rem;
+        color: #111827;
+        font-size: 1.8rem;
+        font-weight: 600;
         margin: 0;
     }
     .title-block p {
-        color: #8b949e;
+        color: #4b5563;
         margin-top: 0.5rem;
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     .result-phishing {
-        background: linear-gradient(135deg, #3d1a1a, #2d1010);
-        border: 1px solid #f85149;
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        padding: 1.25rem;
+        text-align: left;
         margin: 1rem 0;
     }
     .result-legitimate {
-        background: linear-gradient(135deg, #1a3d2b, #102d1e);
-        border: 1px solid #3fb950;
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
+        background: #ecfdf3;
+        border: 1px solid #6ee7b7;
+        border-radius: 8px;
+        padding: 1.25rem;
+        text-align: left;
         margin: 1rem 0;
     }
     .result-text {
-        font-family: 'Space Mono', monospace;
-        font-size: 1.8rem;
-        font-weight: 700;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
     }
     .confidence-text {
-        color: #8b949e;
-        font-size: 0.95rem;
-        margin-top: 0.3rem;
+        color: #4b5563;
+        font-size: 0.9rem;
+        margin-top: 0.1rem;
     }
 
     .feature-card {
-        background: #161b22;
-        border: 1px solid #30363d;
-        border-radius: 8px;
-        padding: 1rem;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 0.85rem;
         margin: 0.3rem 0;
     }
     .feature-name {
-        color: #58a6ff;
-        font-family: 'Space Mono', monospace;
-        font-size: 0.85rem;
+        color: #6b7280;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.1rem;
     }
     .feature-value {
-        color: #e6edf3;
-        font-size: 1.1rem;
-        font-weight: 600;
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 500;
     }
 
     .section-header {
-        font-family: 'Space Mono', monospace;
-        color: #58a6ff;
-        font-size: 1rem;
-        border-bottom: 1px solid #30363d;
-        padding-bottom: 0.5rem;
+        color: #374151;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 0.4rem;
         margin: 1.5rem 0 1rem 0;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 
     .info-box {
-        background: #1c2128;
-        border-left: 3px solid #58a6ff;
-        border-radius: 0 8px 8px 0;
-        padding: 1rem 1.2rem;
+        background: #f9fafb;
+        border-left: 3px solid #2563eb;
+        border-radius: 0 6px 6px 0;
+        padding: 0.9rem 1.1rem;
         margin: 1rem 0;
-        color: #8b949e;
+        color: #4b5563;
         font-size: 0.9rem;
     }
 
     div[data-testid="stTextInput"] input {
-        background-color: #161b22;
-        border: 1px solid #30363d;
-        color: #e6edf3;
-        font-family: 'Space Mono', monospace;
-        border-radius: 8px;
+        background-color: #ffffff;
+        border: 1px solid #d1d5db;
+        color: #111827;
+        border-radius: 6px;
         font-size: 0.95rem;
     }
     div[data-testid="stTextInput"] input:focus {
-        border-color: #58a6ff;
-        box-shadow: 0 0 0 2px rgba(88,166,255,0.2);
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
     }
 
     .stButton > button {
-        background: linear-gradient(135deg, #1f6feb, #388bfd);
-        color: white;
+        background: #2563eb;
+        color: #ffffff;
         border: none;
-        border-radius: 8px;
-        font-family: 'Space Mono', monospace;
-        font-weight: 700;
-        padding: 0.6rem 2rem;
+        border-radius: 6px;
+        font-weight: 500;
+        padding: 0.55rem 2rem;
         font-size: 0.95rem;
         width: 100%;
-        transition: all 0.2s;
+        transition: background 0.15s ease-in-out;
     }
     .stButton > button:hover {
-        background: linear-gradient(135deg, #388bfd, #58a6ff);
-        transform: translateY(-1px);
+        background: #1d4ed8;
     }
 
     .stTabs [data-baseweb="tab"] {
-        font-family: 'Space Mono', monospace;
-        color: #8b949e;
         font-size: 0.85rem;
     }
     .stTabs [aria-selected="true"] {
-        color: #58a6ff;
+        color: #2563eb;
     }
 
     footer {visibility: hidden;}
@@ -245,8 +247,8 @@ shap_explainer = get_shap_explainer(rf)
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class="title-block">
-    <h1>🔐 Phishing URL Detector</h1>
-    <p>ML-powered detection with Explainable AI — SHAP & LIME transparency layer</p>
+    <h1>Phishing URL Detector</h1>
+    <p>Machine learning based risk assessment with SHAP and LIME explanations.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -283,7 +285,7 @@ if analyze_btn and url_input.strip():
     lr_prob  = lr.predict_proba(X_input)[0]
 
     # ── RESULT BANNER ──
-    st.markdown('<p class="section-header">// DETECTION RESULT</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header">Detection Result</p>', unsafe_allow_html=True)
 
     col_rf, col_lr = st.columns(2)
 
@@ -291,32 +293,32 @@ if analyze_btn and url_input.strip():
         if rf_pred == 1:
             st.markdown(f"""
             <div class="result-phishing">
-                <div class="result-text" style="color:#f85149;">⚠️ PHISHING</div>
-                <div class="confidence-text">Random Forest — {rf_prob[1]*100:.1f}% confidence</div>
+                <div class="result-text" style="color:#b91c1c;">Phishing detected</div>
+                <div class="confidence-text">Random Forest · {rf_prob[1]*100:.1f}% confidence</div>
             </div>""", unsafe_allow_html=True)
         else:
             st.markdown(f"""
             <div class="result-legitimate">
-                <div class="result-text" style="color:#3fb950;">✅ LEGITIMATE</div>
-                <div class="confidence-text">Random Forest — {rf_prob[0]*100:.1f}% confidence</div>
+                <div class="result-text" style="color:#166534;">Likely legitimate</div>
+                <div class="confidence-text">Random Forest · {rf_prob[0]*100:.1f}% confidence</div>
             </div>""", unsafe_allow_html=True)
 
     with col_lr:
         if lr_pred == 1:
             st.markdown(f"""
             <div class="result-phishing">
-                <div class="result-text" style="color:#f85149;">⚠️ PHISHING</div>
-                <div class="confidence-text">Logistic Regression — {lr_prob[1]*100:.1f}% confidence</div>
+                <div class="result-text" style="color:#b91c1c;">Phishing detected</div>
+                <div class="confidence-text">Logistic Regression · {lr_prob[1]*100:.1f}% confidence</div>
             </div>""", unsafe_allow_html=True)
         else:
             st.markdown(f"""
             <div class="result-legitimate">
-                <div class="result-text" style="color:#3fb950;">✅ LEGITIMATE</div>
-                <div class="confidence-text">Logistic Regression — {lr_prob[0]*100:.1f}% confidence</div>
+                <div class="result-text" style="color:#166534;">Likely legitimate</div>
+                <div class="confidence-text">Logistic Regression · {lr_prob[0]*100:.1f}% confidence</div>
             </div>""", unsafe_allow_html=True)
 
     # ── EXTRACTED FEATURES ──
-    st.markdown('<p class="section-header">// EXTRACTED URL FEATURES</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header">Extracted URL Features</p>', unsafe_allow_html=True)
 
     feat_cols = st.columns(5)
     for i, (feat, val) in enumerate(features.items()):
@@ -329,13 +331,13 @@ if analyze_btn and url_input.strip():
             </div>""", unsafe_allow_html=True)
 
     # ── XAI TABS ──
-    st.markdown('<p class="section-header">// EXPLAINABILITY LAYER</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header">Explainability</p>', unsafe_allow_html=True)
 
-    tab_shap, tab_lime = st.tabs(["📊 SHAP Explanation", "🔬 LIME Explanation"])
+    tab_shap, tab_lime = st.tabs(["SHAP explanation", "LIME explanation"])
 
     # ── SHAP ──
     with tab_shap:
-        st.markdown('<div class="info-box">SHAP shows how each feature <strong>pushed</strong> the prediction toward phishing or legitimate. Red = pushed toward phishing, Blue = pushed toward legitimate.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="info-box">SHAP shows how each feature influences the model towards a phishing or legitimate decision. Positive values indicate higher phishing risk.</div>', unsafe_allow_html=True)
 
         try:
             shap_vals = shap_explainer.shap_values(X_input)
@@ -382,7 +384,7 @@ if analyze_btn and url_input.strip():
 
     # ── LIME ──
     with tab_lime:
-        st.markdown('<div class="info-box">LIME explains this specific prediction by testing small variations around the input URL. It shows which features were most influential for <strong>this exact URL</strong>.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="info-box">LIME explains this specific prediction by testing small variations around the input URL. It highlights which features were most influential for this exact URL.</div>', unsafe_allow_html=True)
 
         try:
             # Need training data for LIME — generate synthetic reference data
@@ -450,9 +452,9 @@ if analyze_btn and url_input.strip():
 
     # ── DISCLAIMER ──
     st.markdown("""
-    <div class="info-box" style="margin-top:2rem; border-left-color:#d29922;">
-        ⚠️ <strong>Disclaimer:</strong> This model analyzes URL structure only — not webpage content.
-        It was trained on a 2020 dataset. Use as a first-pass filter alongside other security tools.
+    <div class="info-box" style="margin-top:2rem; border-left-color:#d97706;">
+        <strong>Disclaimer:</strong> This model analyzes URL structure only, not webpage content.
+        It was trained on a 2020 dataset. Use as an initial screening tool together with your existing security controls.
     </div>
     """, unsafe_allow_html=True)
 
@@ -463,8 +465,7 @@ else:
     # ── LANDING STATE ──
     st.markdown("""
     <div class="info-box">
-        👆 Enter any URL above and click <strong>Analyze</strong> to get an instant phishing detection
-        with full SHAP and LIME explainability.
+        Enter a URL above and select <strong>Analyze</strong> to generate a phishing risk assessment with SHAP and LIME explanations.
     </div>
     """, unsafe_allow_html=True)
 
@@ -472,14 +473,14 @@ else:
     with col1:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-name">// WHAT THIS DETECTS</div>
+            <div class="feature-name">What this detects</div>
             <br>
-            <div style="color:#8b949e; font-size:0.9rem; line-height:1.7">
-            • Suspicious URL length & structure<br>
+            <div style="color:#4b5563; font-size:0.9rem; line-height:1.7">
+            • Suspicious URL length and structure<br>
             • IP addresses used instead of domains<br>
-            • Phishing keywords (login, verify, secure...)<br>
+            • Phishing-related keywords (login, verify, secure, etc.)<br>
             • Unusual special characters<br>
-            • High entropy (randomized URLs)<br>
+            • High entropy (randomized-looking URLs)<br>
             • Missing HTTPS
             </div>
         </div>
@@ -488,13 +489,13 @@ else:
     with col2:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-name">// HOW IT WORKS</div>
+            <div class="feature-name">How it works</div>
             <br>
-            <div style="color:#8b949e; font-size:0.9rem; line-height:1.7">
-            • <strong style="color:#58a6ff">Layer 1</strong>: Random Forest + Logistic Regression classify the URL<br>
-            • <strong style="color:#58a6ff">Layer 2</strong>: SHAP explains global feature importance<br>
-            • <strong style="color:#58a6ff">Layer 2</strong>: LIME explains this specific prediction<br>
-            • Both models trained on 159K+ phishing URLs
+            <div style="color:#4b5563; font-size:0.9rem; line-height:1.7">
+            • Random Forest and Logistic Regression classify the URL<br>
+            • SHAP summarises how each feature affects the model decision<br>
+            • LIME explains why this specific URL received its score<br>
+            • Models trained on a large phishing and legitimate URL dataset
             </div>
         </div>
         """, unsafe_allow_html=True)
