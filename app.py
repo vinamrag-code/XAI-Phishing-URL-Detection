@@ -192,10 +192,10 @@ rf, lr = load_models()
 # SHAP EXPLAINER (Cached)
 # ─────────────────────────────────────────────
 @st.cache_resource
-def get_shap_explainer(model):
-    return shap.TreeExplainer(model)
+def get_shap_explainer():
+    return shap.TreeExplainer(rf)
 
-shap_explainer = get_shap_explainer(rf)
+shap_explainer = get_shap_explainer()
 
 # ─────────────────────────────────────────────
 # FEATURE EXTRACTION
@@ -302,7 +302,7 @@ if analyze and url_input.strip():
     tab1, tab2 = st.tabs(["SHAP", "LIME"])
 
     with tab1:
-        shap_vals = shap_explainer.shap_values(X_input)[1][0]
+        shap_vals = shap_explainer.shap_values(X_input)
 
         fig, ax = plt.subplots(figsize=(9,5))
         fig.patch.set_facecolor('#0f172a')
