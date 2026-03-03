@@ -189,6 +189,15 @@ def load_models():
 rf, lr = load_models()
 
 # ─────────────────────────────────────────────
+# SHAP EXPLAINER (Cached)
+# ─────────────────────────────────────────────
+@st.cache_resource
+def get_shap_explainer(model):
+    return shap.TreeExplainer(model)
+
+shap_explainer = get_shap_explainer(rf)
+
+# ─────────────────────────────────────────────
 # FEATURE EXTRACTION
 # ─────────────────────────────────────────────
 SUSPICIOUS_WORDS = ['login','verify','update','secure','account',
@@ -293,7 +302,6 @@ if analyze and url_input.strip():
     tab1, tab2 = st.tabs(["SHAP", "LIME"])
 
     with tab1:
-        shap_explainer = shap.TreeExplainer(rf)
         shap_vals = shap_explainer.shap_values(X_input)[1][0]
 
         fig, ax = plt.subplots(figsize=(9,5))
