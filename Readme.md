@@ -60,7 +60,7 @@ Open `http://localhost:8501` in your browser.
 
 ## Live Demo
 
-[Add Streamlit Cloud link after deployment]
+https://phishing-detection-url.streamlit.app/
 
 ---
 
